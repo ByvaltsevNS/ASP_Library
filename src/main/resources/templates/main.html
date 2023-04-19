@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
   <div>
+    <form th:action="@{logout}" method="post">
+      <input type="submit" value="Sign Out"/>
+    </form>
+  </div>
+  <div>
     <form method="post">
       <input type="text" name="text" placeholder="Введите сообщение" />
       <input type="text" name="tag" placeholder="Тэг">
@@ -9,7 +14,7 @@
     </form>
   </div>
   <div>Список сообщений</div>
-  <form method="post" th:action="@{/filter}">
+  <form method="post" th:action="@{filter}">
     <input type="text" name="filter">
     <button type="submit">Найти</button>
   </form>

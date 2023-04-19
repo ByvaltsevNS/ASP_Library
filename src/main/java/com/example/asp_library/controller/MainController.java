@@ -1,31 +1,31 @@
 package com.example.asp_library.controller;
 
 import com.example.asp_library.domain.Message;
+import com.example.asp_library.domain.User;
+import com.example.asp_library.repository.MessageRepository;
+import com.example.asp_library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.asp_library.repository.MessageRepository;
+
+import java.util.List;
 
 @Controller
-@RequestMapping(value = "/")
-public class GreetingController {
+public class MainController {
     @Autowired
     private MessageRepository messageRepository;
+    @Autowired
+    private UserService userService;
 
-    @GetMapping("greeting")
-    public String greeting(
-            @RequestParam(name="name", required=false, defaultValue="World") String name,
-            Model model
-    ) {
-        model.addAttribute("name", name);
+    @GetMapping("/")
+    public String greeting(Model model) {
         return "greeting";
     }
 
-    @GetMapping
+    @GetMapping("/main")
     public String main(Model model) {
         Iterable<Message> messages = messageRepository.findAll();
 
@@ -34,7 +34,7 @@ public class GreetingController {
         return "main";
     }
 
-    @PostMapping
+    @PostMapping("/main")
     public String add(@RequestParam String text, @RequestParam String tag, Model model) {
         Message message = new Message(text, tag);
 
