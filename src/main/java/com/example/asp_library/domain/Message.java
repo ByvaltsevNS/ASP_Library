@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.File;
+
 @Entity
 @Getter @Setter
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class Message {
     private Integer id;
     private String text;
     private String tag;
+    private String fileName;
 
     public Message(String text, String tag) {
         this.text = text;

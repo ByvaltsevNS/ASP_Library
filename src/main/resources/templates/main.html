@@ -7,9 +7,10 @@
     </form>
   </div>
   <div>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data" th:action="@{add}">
       <input type="text" name="text" placeholder="Введите сообщение" />
       <input type="text" name="tag" placeholder="Тэг">
+      <input type="file" name="file">
       <button type="submit">Добавить</button>
     </form>
   </div>
@@ -24,6 +25,7 @@
         <th> Id </th>
         <th> Text </th>
         <th> Tag </th>
+        <th> FileName </th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +36,7 @@
         <td><span th:text="${message.id}"> Id </span></td>
         <td><span th:text="${message.text}"> Text </span></td>
         <td><span th:text="${message.tag}"> Tag </span></td>
+        <td><span th:text="${message.getFileName()}"> FileName </span></td>
       </tr>
     </tbody>
   </table>
