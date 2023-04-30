@@ -23,6 +23,9 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
+    private String email;
+    private String groupId;
+    private String studentId;
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

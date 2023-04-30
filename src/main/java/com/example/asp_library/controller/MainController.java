@@ -1,12 +1,9 @@
 package com.example.asp_library.controller;
 
 import com.example.asp_library.domain.Message;
-import com.example.asp_library.domain.User;
 import com.example.asp_library.repository.MessageRepository;
-import com.example.asp_library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -25,8 +21,6 @@ public class MainController {
     private MessageRepository messageRepository;
     @Value("${upload.path}")
     private String uploadPath;
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/")
     public String greeting(Model model) {
@@ -83,5 +77,10 @@ public class MainController {
         model.addAttribute("messages", messages);
 
         return "main";
+    }
+
+    @GetMapping("/fragments")
+    public String getHome() {
+        return "fragments";
     }
 }
