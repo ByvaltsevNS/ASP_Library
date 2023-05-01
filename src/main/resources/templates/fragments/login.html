@@ -15,9 +15,13 @@
       </div>
       <div class="border border-secondary p-3 rounded">
         <p th:text="${header}"></p>
-        <p><input type="text" name="username" placeholder="Имя пользователя" class="form-control" required autofocus/></p>
+        <p><input type="text" name="username" placeholder="Логин" class="form-control" required autofocus/></p>
         <p><input type="password" name="password" placeholder="Пароль" class="form-control" required/></p>
         <p><input th:if="${isRegisterForm}" name="email" placeholder="Email" class="form-control" required/></p>
+        <p><input th:if="${isRegisterForm}" name="firstName" placeholder="Имя" class="form-control" required/></p>
+        <p><input th:if="${isRegisterForm}" name="lastName" placeholder="Фамилия" class="form-control" required/></p>
+        <p><input th:if="${isRegisterForm}" name="groupId" placeholder="Группа" class="form-control" required/></p>
+        <p><input th:if="${isRegisterForm}" name="studentId" placeholder="Номер студенческого" class="form-control" required/></p>
         <p><input class="btn btn-primary" type="submit" th:value="${button}"/></p>
         <a th:if="!${isRegisterForm}" href="/registration">Регистрация</a>
       </div>
