@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header.html :: header}"></head>
+<body>
+<div class="container">
+  <nav th:replace="~{fragments/navbar.html :: navbar}">
+  </nav>
+  <h5 style="margin-left: 100px">Загрузка файлов</h5>
+  <form method="post" enctype="multipart/form-data" th:action="@{addNewFile}" style="max-width: 350px;">
+    <div class="mb-3">
+      <input class="form-control" type="file" name="file" required>
+    </div>
+    <button class="btn btn-primary mb-3" type="submit">Добавить</button>
+  </form>
+  <div th:if="${errorMessage}" class="alert alert-danger">
+    <span th:text="${errorMessage}"/>
+  </div>
+  <div th:if="${okayMessage}" class="alert alert-success">
+    <span th:text="${okayMessage}"/>
+  </div>
+  <h5 style="margin-left: 150px">Список файлов</h5>
+  <table class="table table-striped table-hover" style="max-width: 500px;">
+    <thead>
+    <tr>
+      <th> Id </th>
+      <th> Name </th>
+      <th> Удалить </th>
+      <th> Запустить </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${files.empty}">
+      <td colspan="3"> No Files Available </td>
+    </tr>
+    <tr th:each="file : ${files}">
+      <td><span th:text="${file.id}"> Id </span></td>
+      <td><span th:text="${file.name}"> Name </span></td>
+      <td>
+        <form method="POST" th:action="@{deleteNewFile}">
+          <input name="id" type="hidden" th:value="${file.id}" />
+          <button type="submit" class="btn btn-danger btn-sm">&nbsp;Удалить&nbsp;</button>
+        </form>
+      </td>
+      <td>
+        <form method="POST" th:action="@{newClingoRun}">
+          <input name="fileName" type="hidden" th:value="${file.name}" />
+          <button type="submit" class="btn btn-danger btn-sm">&nbsp;Clingo&nbsp;</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,10 +1,12 @@
 package com.example.asp_library.controller;
 
 import com.example.asp_library.domain.FileDB;
+import com.example.asp_library.domain.User;
 import com.example.asp_library.repository.FileDBRepository;
-import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,9 +29,9 @@ public class MyFileController {
     }
 
     @PostMapping("addFile")
-    public String addFile(@RequestParam String name, @RequestParam("file") MultipartFile file, Model model) throws IOException {
-        if (file != null || file.getName().isEmpty()) {
-            FileDB fileDB = new FileDB(name, file.getContentType(), file.getBytes());
+    public String addFile(@AuthenticationPrincipal User user, @RequestParam String name, @RequestParam("file") MultipartFile file, Model model) throws IOException {
+        if (file != null || file.getOriginalFilename().isEmpty()) {
+            FileDB fileDB = new FileDB(name, file.getContentType(), file.getBytes(), user.getId());
             fileDBRepository.save(fileDB);
         }
         Iterable<FileDB> files = fileDBRepository.findAll();

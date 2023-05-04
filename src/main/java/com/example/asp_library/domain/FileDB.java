@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name="fileDB")
@@ -21,14 +18,16 @@ public class FileDB {
     private String name;
     private String type;
     private String parent;
+    private Long userId;
     private boolean isTask;
     @Lob
     private byte[] data;
 
-    public FileDB(String name, String type, byte[] data) {
+    public FileDB(String name, String type, byte[] data, Long userId) {
         this.name = name;
         this.type = type;
         this.data = data;
+        this.userId = userId;
 
         this.parent = "";
         this.isTask = true;
