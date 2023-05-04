@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:insert="~{fragments/header.html :: header}"></head>
+<body>
+    <div class="container">
+        <nav th:replace="~{fragments/navbar :: navbar}">
+        </nav>
+        <div th:replace="~{fragments/login :: login(path='/login',header='Авторизуйтесь, чтобы продолжить',button='Войти',isRegisterForm=false)}">
+        </div>
+    </div>
+</body>
+<script th:fragment="script" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+</html>

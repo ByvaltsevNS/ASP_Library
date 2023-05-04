@@ -22,7 +22,7 @@ public class FileDBService {
         return fileDBRepository.save(FileDB);
     }
 
-    public FileDB getFile(String id) {
+    public FileDB getFile(Long id) {
         return fileDBRepository.findById(id).get();
     }
 

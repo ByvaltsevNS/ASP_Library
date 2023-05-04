@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="logout">
+  <form th:action="@{/logout}" method="post">
+    <button class="btn btn-primary" type="submit" sec:authorize="isAuthenticated()" th:value="Выйти"></button>
+  </form>
+</div>
+</body>
+</html>

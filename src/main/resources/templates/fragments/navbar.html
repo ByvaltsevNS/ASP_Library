@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light" th:fragment="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">ASP Library</a>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Главная</a>
+          </li>
+        </ul>
+
+        <div class="navbar-text mr-3" sec:authorize="isAnonymous()">Пожалуйста, авторизуйтесь</div>
+      </div>
+      <form class="d-flex" th:action="@{/logout}" method="post">
+        <button class="btn btn-primary" type="submit" sec:authorize="isAuthenticated()">Выйти</button>
+      </form>
+    </div>
+  </nav>
+</body>
+</html>
