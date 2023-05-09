@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head th:insert="~{fragments/header.html :: header}"></head>
 <body>
 <div class="container">
-  <nav th:replace="~{fragments/navbar.html :: navbar}">
+  <nav th:replace="~{fragments/navbar.html :: navbar(user)}">
   </nav>
   <h5 style="margin-left: 100px">Загрузка файлов</h5>
   <form method="post" enctype="multipart/form-data" th:action="@{addNewFile}" style="max-width: 350px;">
@@ -30,7 +30,7 @@
     </thead>
     <tbody>
     <tr th:if="${files.empty}">
-      <td colspan="3"> No Files Available </td>
+      <td colspan="4"> No Files Available </td>
     </tr>
     <tr th:each="file : ${files}">
       <td><span th:text="${file.id}"> Id </span></td>

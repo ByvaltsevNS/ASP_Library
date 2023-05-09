@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light" th:fragment="navbar">
+  <nav class="navbar navbar-expand-lg navbar-light" th:fragment="navbar(user=null)">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">ASP Library</a>
 
@@ -13,10 +14,11 @@
         </ul>
       </div>
       <div class="navbar-text d-flex me-3" sec:authorize="isAnonymous()">Пожалуйста, авторизуйтесь</div>
+      <div class="navbar-text d-flex me-3" sec:authorize="isAuthenticated()" th:if="${user}" th:text="${user.firstName+' '+user.lastName}"></div>
       <form class="d-flex" th:action="@{/logout}" method="post">
         <button class="btn btn-primary" type="submit" sec:authorize="isAuthenticated()">Выйти</button>
       </form>
-      <form class="d-flex" th:action="@{/login}" method="post">
+      <form class="d-flex" th:action="@{/login}" method="get">
         <button class="btn btn-primary" type="submit" sec:authorize="isAnonymous()">Войти</button>
       </form>
     </div>

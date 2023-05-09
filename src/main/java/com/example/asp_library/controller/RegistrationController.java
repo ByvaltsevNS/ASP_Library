@@ -5,12 +5,13 @@ import com.example.asp_library.domain.User;
 import com.example.asp_library.repository.UserRepository;
 import com.example.asp_library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collections;
-import java.util.Map;
 
 @Controller
 public class RegistrationController {
@@ -20,23 +21,40 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping("/registration")
-    public String registration() {
-        return "registration";
+    public String registration(
+            @AuthenticationPrincipal User user,
+            Model model) {
+        if (user != null && user.isCredentialsNonExpired()) {
+            return "redirect:/";
+        }
+        else {
+            model.addAttribute("user", user);
+            return "registration";
+        }
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepository.findByUsername(user.getUsername());
-
+    public String addUser(
+            @AuthenticationPrincipal User user,
+            User newUser,
+            Model model) {
+        User userFromDb = userRepository.findByUsername(newUser.getUsername());
         if (userFromDb != null) {
-            model.put("message", "User exists!");
+            model.addAttribute("errorMessage", "Пользователь с таким логином уже существует!");
+            return "registration";
+        }
+        userFromDb = userRepository.findByStudentId(newUser.getStudentId());
+        if (userFromDb != null) {
+            model.addAttribute("errorMessage", "Пользователь с таким номером студенческого уже существует!");
             return "registration";
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userService.createUser(user);
+        newUser.setActive(true);
+        newUser.setRoles(Collections.singleton(Role.USER));
+        userService.createUser(newUser);
 
-        return "redirect:/login";
+        model.addAttribute("successMessage", "Пользователь успешно зарегистрирован!");
+
+        return "login";
     }
 }

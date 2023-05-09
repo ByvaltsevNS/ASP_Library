@@ -20,39 +20,53 @@ public class MyFileController {
     private FileDBRepository fileDBRepository;
 
     @GetMapping("/myfiles")
-    public String files(Model model) {
+    public String files(
+            @AuthenticationPrincipal User user,
+            Model model) {
         Iterable<FileDB> files = fileDBRepository.findAll();
 
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
 
         return "files";
     }
 
     @PostMapping("addFile")
-    public String addFile(@AuthenticationPrincipal User user, @RequestParam String name, @RequestParam("file") MultipartFile file, Model model) throws IOException {
+    public String addFile(
+            @AuthenticationPrincipal User user,
+            @RequestParam String name,
+            @RequestParam("file") MultipartFile file,
+            Model model) throws IOException {
         if (file != null || file.getOriginalFilename().isEmpty()) {
             FileDB fileDB = new FileDB(name, file.getContentType(), file.getBytes(), user.getId());
             fileDBRepository.save(fileDB);
         }
         Iterable<FileDB> files = fileDBRepository.findAll();
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
 
         return "files";
     }
 
     @PostMapping("deleteFile")
-    public String deleteFile(@RequestParam Long id, Model model) {
+    public String deleteFile(
+            @AuthenticationPrincipal User user,
+            @RequestParam Long id,
+            Model model) {
         FileDB fileDB = fileDBRepository.findById(id).get();
         fileDBRepository.delete(fileDB);
 
         Iterable<FileDB> files = fileDBRepository.findAll();
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
 
         return "files";
     }
 
     @PostMapping("clingoRun")
-    public String clingoRun(Model model) {
+    public String clingoRun(
+            @AuthenticationPrincipal User user,
+            Model model) {
         Runtime runtime = Runtime.getRuntime();
         try {
             //Запуск командной строки и передача ей параметров для выполнения системой clingo примера задачи
@@ -72,6 +86,7 @@ public class MyFileController {
 
         Iterable<FileDB> files = fileDBRepository.findAll();
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
 
         return "files";
     }

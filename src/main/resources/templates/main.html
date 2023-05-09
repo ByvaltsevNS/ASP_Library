@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head th:insert="~{fragments/header.html :: header}"></head>
 <body>
 <div class="container text-center">
-  <nav th:replace="~{fragments/navbar.html :: navbar}">
+  <nav th:replace="~{fragments/navbar.html :: navbar(user)}">
   </nav>
   <h4>Добро пожаловать в библиотеку решений на языке логического программирования ASP!</h4>
 </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <body>
   <div class="container-fluid text-center mt-5" th:fragment="login (path, header, button, isRegisterForm)">
     <form th:action="${path}" method="post" style="max-width: 350px; margin: 0 auto;">
@@ -8,6 +8,12 @@
       </div>
       <div th:if="${param.logout}" class="alert alert-success">
         Теперь Вы не авторизованы.
+      </div>
+      <div th:if="${errorMessage}" class="alert alert-danger">
+        <span th:text="${errorMessage}"/>
+      </div>
+      <div th:if="${successMessage}" class="alert alert-success">
+        <span th:text="${successMessage}"/>
       </div>
       <div class="border border-secondary p-3 rounded">
         <p th:text="${header}"></p>

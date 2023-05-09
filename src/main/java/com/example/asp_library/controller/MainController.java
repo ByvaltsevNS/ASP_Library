@@ -25,14 +25,28 @@ public class MainController {
     private String uploadPath;
 
     @GetMapping("/")
-    public String mainPage(Model model) {
+    public String mainPage(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("user", user);
         return "main";
     }
+
+    @GetMapping("login")
+    public String login(Model model, @AuthenticationPrincipal User user) {
+        if (user != null && user.isCredentialsNonExpired()) {
+            return "redirect:/";
+        }
+        else {
+            model.addAttribute("user", user);
+            return "login";
+        }
+    }
+
     @GetMapping("newFiles")
-    public String files(Model model) {
+    public String files(Model model, @AuthenticationPrincipal User user) {
         Iterable<FileDB> files = fileDBRepository.findAll();
 
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
 
         return "newFiles";
     }
@@ -54,18 +68,23 @@ public class MainController {
                 FileDB fileDB = new FileDB(file.getOriginalFilename(), file.getContentType(), file.getBytes(), user.getId());
                 fileDBRepository.save(fileDB);
                 file.transferTo(newFile);
+                model.addAttribute("okayMessage", "Файл успешно добавлен!");
             } else {
                 model.addAttribute("errorMessage", "Файл с таким именем уже существует!");
             }
         }
         Iterable<FileDB> files = fileDBRepository.findAll();
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
 
         return "newFiles";
     }
 
     @PostMapping("deleteNewFile")
-    public String deleteNewFile(@RequestParam Long id, Model model) {
+    public String deleteNewFile(
+            @AuthenticationPrincipal User user,
+            @RequestParam Long id,
+            Model model) {
         FileDB fileDB = fileDBRepository.findById(id).get();
         File file = new File(uploadPath  + "/" +  fileDB.getName());
         file.delete();
@@ -73,12 +92,17 @@ public class MainController {
 
         Iterable<FileDB> files = fileDBRepository.findAll();
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
+        model.addAttribute("okayMessage", "Файл успешно удален!");
 
         return "newFiles";
     }
 
     @PostMapping("newClingoRun")
-    public String clingoRun(@RequestParam String fileName, Model model) {
+    public String clingoRun(
+            @AuthenticationPrincipal User user,
+            @RequestParam String fileName,
+            Model model) {
         Runtime runtime = Runtime.getRuntime();
         Process cmdStart = null;
         try {
@@ -95,6 +119,7 @@ public class MainController {
 
         Iterable<FileDB> files = fileDBRepository.findAll();
         model.addAttribute("files", files);
+        model.addAttribute("user", user);
 
         return "newFiles";
     }
