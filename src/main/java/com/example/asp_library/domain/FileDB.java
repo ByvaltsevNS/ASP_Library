@@ -18,16 +18,18 @@ public class FileDB {
     private String name;
     private String type;
     private String parent;
+    private String ext;
     private Long userId;
     private boolean isTask;
     @Lob
     private byte[] data;
 
-    public FileDB(String name, String type, byte[] data, Long userId) {
+    public FileDB(String name, String type, byte[] data, Long userId, String ext) {
         this.name = name;
         this.type = type;
         this.data = data;
         this.userId = userId;
+        this.ext = ext;
 
         this.parent = "";
         this.isTask = true;
@@ -45,5 +47,9 @@ public class FileDB {
     public int hashCode() {
         int result = Arrays.hashCode(data);
         return result;
+    }
+
+    public String getFullName() {
+        return this.name + "." + this.ext;
     }
 }

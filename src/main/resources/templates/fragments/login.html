@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <body>
   <div class="container-fluid text-center mt-5" th:fragment="login (path, header, button, isRegisterForm)">
     <form th:action="${path}" method="post" style="max-width: 350px; margin: 0 auto;">
@@ -24,8 +25,13 @@
         <p><input th:if="${isRegisterForm}" name="lastName" placeholder="Фамилия" class="form-control" required/></p>
         <p><input th:if="${isRegisterForm}" name="groupId" placeholder="Группа" class="form-control" required/></p>
         <p><input th:if="${isRegisterForm}" name="studentId" placeholder="Номер студенческого" class="form-control" required/></p>
+        <p>
+          <select th:if="${isRegisterForm}" class="form-control" name="role">
+            <option th:each="option : ${T(com.example.asp_library.domain.Role).values()}" th:value="${option}" th:text="${option}"></option>
+          </select>
+        </p>
         <p><input class="btn btn-primary" type="submit" th:value="${button}"/></p>
-        <a th:if="!${isRegisterForm}" href="/registration">Регистрация</a>
+        <a th:if="!${isRegisterForm}" sec:authorize="hasAuthority('ADMIN')" href="/registration">Регистрация</a>
       </div>
     </form>
   </div>

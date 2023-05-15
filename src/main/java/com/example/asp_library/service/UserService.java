@@ -13,6 +13,7 @@ import com.example.asp_library.domain.User;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -36,7 +37,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void createUser(User user) {
+    public void createUser(User user, Set<Role> roles) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
@@ -44,7 +45,7 @@ public class UserService implements UserDetailsService {
         }
 
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);

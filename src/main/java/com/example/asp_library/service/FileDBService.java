@@ -18,7 +18,7 @@ public class FileDBService {
 
     public FileDB store(MultipartFile file, User user) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes(), user.getId());
+        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes(), user.getId(), "");
 
         return fileDBRepository.save(FileDB);
     }

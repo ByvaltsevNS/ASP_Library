@@ -38,8 +38,8 @@ public class MyFileController {
             @RequestParam("file") MultipartFile file,
             Model model) throws IOException {
         if (file != null || file.getOriginalFilename().isEmpty()) {
-            FileDB fileDB = new FileDB(name, file.getContentType(), file.getBytes(), user.getId());
-            fileDBRepository.save(fileDB);
+            //FileDB fileDB = new FileDB(name, file.getContentType(), file.getBytes(), user.getId());
+            //fileDBRepository.save(fileDB);
         }
         Iterable<FileDB> files = fileDBRepository.findAll();
         model.addAttribute("files", files);
