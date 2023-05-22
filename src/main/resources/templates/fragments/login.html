@@ -31,6 +31,7 @@
           </select>
         </p>
         <p><input class="btn btn-primary" type="submit" th:value="${button}"/></p>
+        <a th:if="!${isRegisterForm}" href="/registration">Регистрация</a>
         <a th:if="!${isRegisterForm}" sec:authorize="hasAuthority('ADMIN')" href="/registration">Регистрация</a>
       </div>
     </form>

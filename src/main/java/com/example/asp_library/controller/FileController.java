@@ -9,17 +9,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Base64;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -55,6 +53,9 @@ public class FileController {
 
     private File createFileFromTextArea(StringBuilder text) throws IOException {
         File file = new File(uploadPath + "/program.lp");
+        if (file.exists()) {
+            file.delete();
+        }
         if (!file.exists()) {
             if (file.createNewFile()) {
                 FileWriter nFile = new FileWriter(file);
@@ -104,7 +105,7 @@ public class FileController {
     @GetMapping("newFiles")
     public String files(Model model, @AuthenticationPrincipal User user) {
         this.prepareView(model, user);
-        return "newFiles";
+        return "files";
     }
 
     @PostMapping("addNewFile")
@@ -137,7 +138,7 @@ public class FileController {
             }
         }
         this.prepareView(model, user);
-        return "newFiles";
+        return "files";
     }
 
     @PostMapping("deleteNewFile")
@@ -153,7 +154,7 @@ public class FileController {
         fileDBRepository.delete(fileDB);
 
         this.prepareView(model, user);
-        return "newFiles";
+        return "files";
     }
 
     @PostMapping("selectNewFile")
@@ -166,7 +167,7 @@ public class FileController {
         StringBuilder stringBuilder = this.readFileText(fileDB.getFullName());
 
         this.prepareView(model, user, stringBuilder, fileDB.getId());
-        return "newFiles";
+        return "files";
     }
 
     @PostMapping("newClingoRun")
@@ -203,7 +204,7 @@ public class FileController {
         }
 
         this.prepareView(model, user, textFile, fileId, resultFileText);
-        return "newFiles";
+        return "files";
     }
 
     @PostMapping("newClingoRun1")
@@ -235,6 +236,8 @@ public class FileController {
                     } else {
                         model.addAttribute("errorMessage", "it's NOT Ok!");
                     }
+                } else {
+                    model.addAttribute("errorMessage", "it's NOT Ok!");
                 }
             } catch (IOException e) {
                 cmdStart.destroy();
@@ -246,7 +249,7 @@ public class FileController {
         }
 
         this.prepareView(model, user, textFile, null, resultFileText);
-        return "newFiles";
+        return "files";
     }
 }
 
