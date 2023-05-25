@@ -8,7 +8,7 @@
   <div class="row border h-100">
     <div class="col border p-2">
       <h5 class="text-center">Загрузка файлов</h5>
-      <form method="post" enctype="multipart/form-data" th:action="@{addNewFile}">
+      <form method="post" enctype="multipart/form-data" th:action="@{addFile}">
         <div class="row mb-2">
           <label for="fileName" class="text-center col-sm-2 col-form-label">Имя файла</label>
           <div class="col-sm-10">
@@ -43,15 +43,15 @@
             <td><span th:text="${file.id}"> Id </span></td>
             <td><span th:text="${file.name}"> Name </span></td>
             <td>
-              <form method="POST" th:action="@{deleteNewFile}">
+              <form method="POST" th:action="@{deleteFile}">
                 <input name="id" type="hidden" th:value="${file.id}" />
                 <button type="submit" class="btn btn-danger btn-sm">&nbsp;Удалить&nbsp;</button>
               </form>
             </td>
             <td>
-              <form method="POST" th:action="@{selectNewFile}">
+              <form method="POST" th:action="@{selectFile}">
                 <input name="id" type="hidden" th:value="${file.id}" />
-                <button type="submit" class="btn btn-danger btn-sm">&nbsp;Выбрать&nbsp;</button>
+                <button type="submit" class="btn btn-primary btn-sm">&nbsp;Выбрать&nbsp;</button>
               </form>
             </td>
           </tr>
@@ -62,7 +62,7 @@
     <div class="col border p-2">
       <h5 class="text-center">Содержимое файла</h5>
       <div class="row">
-        <form method="POST" th:action="@{newClingoRun1}">
+        <form method="POST" th:action="@{clingoRun1}">
           <input class="form-control" name="fileId" type="hidden" th:value="${fileId}" />
           <textarea class="form-control mb-2" rows="10" name="textFile" th:text="${textFile}"></textarea>
           <button type="submit" class="btn btn-primary mb-2">&nbsp;Запустить&nbsp;</button>
@@ -70,7 +70,7 @@
         </form>
       </div>
       <div class="row">
-        <form class="mb-2" method="POST" th:action="@{newClingoRun}">
+        <form class="mb-2" method="POST" th:action="@{clingoRun}">
           <textarea class="form-control" rows="10" name="resultFileText" th:text="${resultFileText}"></textarea>
         </form>
       </div>

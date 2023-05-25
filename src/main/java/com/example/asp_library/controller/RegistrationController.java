@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
+import java.util.Set;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -28,7 +29,8 @@ public class RegistrationController {
             @AuthenticationPrincipal User user,
             Model model) {
         if (user != null && user.isCredentialsNonExpired()) {
-            return "redirect:/login";
+            //return "redirect:/login";
+            return "registration";
         }
         else {
             model.addAttribute("user", user);
@@ -39,25 +41,15 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(
             @AuthenticationPrincipal User user,
-            @RequestParam Role role,
             User newUser,
             Model model) {
-        User userFromDb = userRepository.findByUsername(newUser.getUsername());
-        if (userFromDb != null) {
+
+        if (userService.createUser(newUser)) {
+            model.addAttribute("successMessage", "Пользователь успешно зарегистрирован!");
+        } else {
             model.addAttribute("errorMessage", "Пользователь с таким логином уже существует!");
-            return "registration";
         }
-        userFromDb = userRepository.findByStudentId(newUser.getStudentId());
-        if (userFromDb != null) {
-            model.addAttribute("errorMessage", "Пользователь с таким номером студенческого уже существует!");
-            return "registration";
-        }
-
-        newUser.setActive(true);
-        //newUser.setRoles(Collections.singleton(Role.USER));
-        userService.createUser(newUser, Collections.singleton(role));
-
-        model.addAttribute("successMessage", "Пользователь успешно зарегистрирован!");
+        model.addAttribute("user", user);
 
         return "login";
     }

@@ -23,11 +23,19 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User getUserById(Long id) {
+        User user = null;
+
+        if (userRepository.findById(id).isPresent()) {
+            user = userRepository.findById(id).get();
         }
 
         return user;
@@ -37,26 +45,33 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void createUser(User user, Set<Role> roles) {
+    public boolean createUser(User user) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
-            return;
+            return false;
         }
 
         user.setActive(true);
-        user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
+        return true;
     }
 
-    public void updateUser(UserDetails user) {
+    public boolean updateUser(User user) {
+        User anotherUser = this.getUserByUsername(user.getUsername());
 
+        if (anotherUser == null || user.equals(anotherUser)) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
-    public void deleteUser(String username) {
-
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 
     public void changePassword(String oldPassword, String newPassword) {

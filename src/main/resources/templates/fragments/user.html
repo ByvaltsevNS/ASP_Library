@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<body>
+<form th:fragment="userForm" th:action="@{saveUser}" th:object="${selectedUser}" method="post">
+  <div class="text-center border border-secondary p-3 rounded">
+    <p><input name="id" type="hidden" th:field="*{id}" /></p>
+    <div class="row mb-2">
+      <label for="username" class="col-sm-3 col-form-label">Логин</label>
+      <div class="col-sm-9">
+        <input id="username" name="username" type="text" placeholder="Логин" class="form-control" th:field="*{username}" required/>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="password" class="col-sm-3 col-form-label">Пароль</label>
+      <div class="col-sm-9">
+        <input id="password" name="password" type="password" placeholder="Пароль" class="form-control" th:field="*{password}" required/>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="email" class="col-sm-3 col-form-label">Email</label>
+      <div class="col-sm-9">
+        <input id="email" name="email" type="text" placeholder="Email" class="form-control" th:field="*{email}" aria-describedby="emailHelp" required/>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="firstName" class="col-sm-3 col-form-label">Имя</label>
+      <div class="col-sm-9">
+        <input id="firstName" name="firstName" type="text" placeholder="Имя" class="form-control" th:field="*{firstName}" required/>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="lastName" class="col-sm-3 col-form-label">Фамилия</label>
+      <div class="col-sm-9">
+        <input id="lastName" name="lastName" type="text" placeholder="Фамилия" class="form-control" th:field="*{lastName}" required/>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="groupId" class="col-sm-3 col-form-label">Группа</label>
+      <div class="col-sm-9">
+        <input id="groupId" name="groupId" type="text" placeholder="Группа" class="form-control" th:field="*{groupId}" required/>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="studentId" class="col-sm-3 col-form-label">Студенческий</label>
+      <div class="col-sm-9">
+        <input id="studentId" name="studentId" type="text" placeholder="Номер студенческого" class="form-control" th:field="*{studentId}" required/>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="roles" class="col-sm-3 col-form-label">Права</label>
+      <div class="col-sm-9">
+        <select class="form-control" id="roles" name="roles" multiple="multiple" size="4">
+          <option th:each="role : ${T(com.example.asp_library.domain.Role).values()}" th:value="${role}" th:text="${role}"></option>
+        </select>
+      </div>
+    </div>
+    <p><input type="checkbox" id="active" name="active" th:field="*{active}" checked><label style="margin-left: 5px" for="active">Активен</label></p>
+    <p><input class="btn btn-primary" type="submit" value="Сохранить"/></p>
+  </div>
+</form>
+</body>
+</html>

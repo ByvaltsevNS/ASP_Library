@@ -102,14 +102,14 @@ public class FileController {
         model.addAttribute("resultFileText", resultFileText);
     }
 
-    @GetMapping("newFiles")
+    @GetMapping("files")
     public String files(Model model, @AuthenticationPrincipal User user) {
         this.prepareView(model, user);
         return "files";
     }
 
-    @PostMapping("addNewFile")
-    public String add(
+    @PostMapping("addFile")
+    public String addFile(
             @AuthenticationPrincipal User user,
             Model model,
             @RequestParam("file") MultipartFile file,
@@ -141,8 +141,8 @@ public class FileController {
         return "files";
     }
 
-    @PostMapping("deleteNewFile")
-    public String deleteNewFile(
+    @PostMapping("deleteFile")
+    public String deleteFile(
             @AuthenticationPrincipal User user,
             @RequestParam Long id,
             Model model) {
@@ -157,8 +157,8 @@ public class FileController {
         return "files";
     }
 
-    @PostMapping("selectNewFile")
-    public String selectNewFile(
+    @PostMapping("selectFile")
+    public String selectFile(
             @AuthenticationPrincipal User user,
             @RequestParam Long id,
             Model model) throws IOException {
@@ -170,7 +170,7 @@ public class FileController {
         return "files";
     }
 
-    @PostMapping("newClingoRun")
+    @PostMapping("clingoRun")
     public String clingoRun(
             @AuthenticationPrincipal User user,
             @RequestParam Long fileId,
@@ -207,7 +207,7 @@ public class FileController {
         return "files";
     }
 
-    @PostMapping("newClingoRun1")
+    @PostMapping("clingoRun1")
     public String clingoRun1(
             @AuthenticationPrincipal User user,
             @RequestParam StringBuilder textFile,

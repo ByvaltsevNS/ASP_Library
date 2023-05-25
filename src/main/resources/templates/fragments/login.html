@@ -26,8 +26,8 @@
         <p><input th:if="${isRegisterForm}" name="groupId" placeholder="Группа" class="form-control" required/></p>
         <p><input th:if="${isRegisterForm}" name="studentId" placeholder="Номер студенческого" class="form-control" required/></p>
         <p>
-          <select th:if="${isRegisterForm}" class="form-control" name="role">
-            <option th:each="option : ${T(com.example.asp_library.domain.Role).values()}" th:value="${option}" th:text="${option}"></option>
+          <select th:if="${isRegisterForm}" class="form-control" name="roles" multiple="multiple" size="4">
+            <option th:each="role : ${T(com.example.asp_library.domain.Role).values()}" th:value="${role}" th:text="${role}"></option>
           </select>
         </p>
         <p><input class="btn btn-primary" type="submit" th:value="${button}"/></p>
